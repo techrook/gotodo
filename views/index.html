@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
+          integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="text-center my-4">
+        <h1>Task Manager</h1>
+        <p class="text-muted">Stay organized and get things done! 🚀</p>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header bg-primary text-white">Add a New Task</div>
+            <div class="card-body">
+                <form action="/add" method="post">
+                    <div class="form-group">
+                        <label for="item">Task</label>
+                        <input type="text" id="item" class="form-control" name="item" placeholder="Enter a task..." required>
+                        <small class="form-text text-muted">What do you need to accomplish today?</small>
+                    </div>
+                    <button type="submit" class="btn btn-success">Add Task</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">Your Tasks</div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Task</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{range .Todos}}
+                            <tr>
+                                <td>
+                                    {{if .Completed}}
+                                        <s class="text-muted">{{.Item}}</s>
+                                    {{else}}
+                                        {{.Item}}
+                                    {{end}}
+                                </td>
+                                <td>
+                                    {{if .Completed}}
+                                        <span class="badge badge-success">Completed</span>
+                                    {{else}}
+                                        <span class="badge badge-warning">Pending</span>
+                                    {{end}}
+                                </td>
+                                <td>
+                                    {{if .Completed}}
+                                        <button class="btn btn-secondary" disabled>✅ Done</button>
+                                        <button class="btn btn-danger" disabled>🗑 Remove</button>
+                                    {{else}}
+                                        <button class="btn btn-primary">✔ Mark as Done</button>
+                                        <button class="btn btn-danger">🗑 Remove</button>
+                                    {{end}}
+                                </td>
+                            </tr>
+                        {{end}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
