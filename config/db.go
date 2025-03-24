@@ -9,7 +9,7 @@ import (
 )
 
 func Database() *sql.DB {
-	database, err := sql.Open("mysql", "root:@(127.0.0.1:3306)/?parseTime=true")
+	database, err := sql.Open("mysql", "meekbill:yourpassword@(127.0.0.1:3306)/?parseTime=true")
 
 	if err != nil {
 		log.Fatal(err.Error())
