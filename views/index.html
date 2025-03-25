@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
-          integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -64,8 +63,20 @@
                                         <button class="btn btn-secondary" disabled>✅ Done</button>
                                         <button class="btn btn-danger" disabled>🗑 Remove</button>
                                     {{else}}
-                                        <button class="btn btn-primary">✔ Mark as Done</button>
-                                        <button class="btn btn-danger">🗑 Remove</button>
+                                        <!-- Form-Based Approach -->
+                                        <form action="/complete/{{.ID}}" method="post" style="display:inline;">
+                                            <input type="hidden" name="_method" value="PATCH">
+                                            <button type="submit" class="btn btn-primary">✔ Mark as Done</button>
+                                        </form>
+
+                                        <form action="/delete/{{.ID}}" method="post" style="display:inline;">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn btn-danger">🗑 Remove</button>
+                                        </form>
+
+                                        <!-- JavaScript Fetch API -->
+                                        <button class="btn btn-primary" onclick="updateTask('{{.ID}}')">✔ Mark as Done</button>
+                                        <button class="btn btn-danger" onclick="deleteTask('{{.ID}}')">🗑 Remove</button>
                                     {{end}}
                                 </td>
                             </tr>
@@ -75,5 +86,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function updateTask(id) {
+            fetch(`/complete/${id}`, { method: "PATCH" })
+                .then(response => location.reload());
+        }
+
+        function deleteTask(id) {
+            fetch(`/delete/${id}`, { method: "DELETE" })
+                .then(response => location.reload());
+        }
+    </script>
 </body>
 </html>
