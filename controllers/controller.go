@@ -63,7 +63,7 @@ func Add(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func updateCompleted(w http.ResponseWriter, r *http.Request) {
+func UpdateCompleted(w http.ResponseWriter, r *http.Request) {
 	id := r.FormValue("id")
 
 	_, err := database.Exec(`UPDATE todos SET completed = 1 WHERE id = ?`, id)
