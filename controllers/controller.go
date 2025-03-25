@@ -62,3 +62,15 @@ func Add(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 
 }
+
+func updateCompleted(w http.ResponseWriter, r *http.Request) {
+	id := r.FormValue("id")
+
+	_, err := database.Exec(`UPDATE todos SET completed = 1 WHERE id = ?`, id)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
+}
