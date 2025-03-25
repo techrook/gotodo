@@ -74,3 +74,14 @@ func UpdateCompleted(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
+func DeleteTask(w http.ResponseWriter, r *http.Request) {
+	id := r.FormValue("id")
+
+	_, err := database.Exec(`DELETE FROM todos WHERE id = ?`, id)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
+}
