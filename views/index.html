@@ -21,7 +21,6 @@
                     <div class="form-group">
                         <label for="item">Task</label>
                         <input type="text" id="item" class="form-control" name="item" placeholder="Enter a task..." required>
-                        <small class="form-text text-muted">What do you need to accomplish today?</small>
                     </div>
                     <button type="submit" class="btn btn-success">Add Task</button>
                 </form>
@@ -45,38 +44,26 @@
                         {{range .Todos}}
                             <tr>
                                 <td>
-                                    {{if .Completed}}
+                                    {{if eq .Completed 1}}
                                         <s class="text-muted">{{.Item}}</s>
                                     {{else}}
                                         {{.Item}}
                                     {{end}}
                                 </td>
                                 <td>
-                                    {{if .Completed}}
+                                    {{if eq .Completed 1}}
                                         <span class="badge badge-success">Completed</span>
                                     {{else}}
                                         <span class="badge badge-warning">Pending</span>
                                     {{end}}
                                 </td>
                                 <td>
-                                    {{if .Completed}}
+                                    {{if eq .Completed 1}}
                                         <button class="btn btn-secondary" disabled>✅ Done</button>
-                                        <button class="btn btn-danger" disabled>🗑 Remove</button>
+                                        <a href="/delete/{{.Id}}" class="btn btn-danger">🗑 Remove</a>
                                     {{else}}
-                                        <!-- Form-Based Approach -->
-                                        <form action="/complete/{{.ID}}" method="post" style="display:inline;">
-                                            <input type="hidden" name="_method" value="PATCH">
-                                            <button type="submit" class="btn btn-primary">✔ Mark as Done</button>
-                                        </form>
-
-                                        <form action="/delete/{{.ID}}" method="post" style="display:inline;">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <button type="submit" class="btn btn-danger">🗑 Remove</button>
-                                        </form>
-
-                                        <!-- JavaScript Fetch API -->
-                                        <button class="btn btn-primary" onclick="updateTask('{{.ID}}')">✔ Mark as Done</button>
-                                        <button class="btn btn-danger" onclick="deleteTask('{{.ID}}')">🗑 Remove</button>
+                                        <a href="/complete/{{.Id}}" class="btn btn-primary">✔ Mark as Done</a>
+                                        <a href="/delete/{{.Id}}" class="btn btn-danger">🗑 Remove</a>
                                     {{end}}
                                 </td>
                             </tr>
@@ -89,12 +76,12 @@
 
     <script>
         function updateTask(id) {
-            fetch(`/complete/${id}`, { method: "PATCH" })
+            fetch(`/complete/${id}`, { method: "POST" })
                 .then(response => location.reload());
         }
 
         function deleteTask(id) {
-            fetch(`/delete/${id}`, { method: "DELETE" })
+            fetch(`/delete/${id}`, { method: "POST" })
                 .then(response => location.reload());
         }
     </script>
